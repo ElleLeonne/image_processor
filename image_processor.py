@@ -110,7 +110,7 @@ class VisionEmbeddings(nn.Module):
             images = torch.stack(images) #(c, h, w)
             images = self.projection(images).transpose(1, 3, 4, 2) #b, dim, h, w
             images = images.unbind(0) #Unstack our batch to make sure we're returning the same formats
-        except: #Give up and process them separately (padding will ruin patching, we'll pad after embed merging)
+        except: #Give up and process them separately (padding will ruin patching)
             images = [self.projection(image).transpose(2, 3, 1) for image in images] #shape dim, h, w
         return self.reconstruct_meta_list(images, meta_position, len(image_list))
         #return images
